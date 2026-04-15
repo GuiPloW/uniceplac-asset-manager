@@ -27,3 +27,6 @@ enum StatusEquipamento {
   Ativo
   Manutencao
 }
+
+// É o Contrato do banco de dados.
+// É aqui que defini a estrutura de tudo o que será armazenado.

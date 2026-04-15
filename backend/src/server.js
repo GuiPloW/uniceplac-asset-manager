@@ -5,10 +5,9 @@ const routes = require('./routes');
 
 const app = express();
 
-app.use(cors()); // Permite que o Frontend acesse a API
-app.use(express.json()); // Permite que a API entenda JSON no corpo das requisições
+app.use(cors());
+app.use(express.json());
 
-// Rota de Status (Opção 2) - Evita a tela "Cannot GET /"
 app.get('/', (req, res) => {
     res.status(200).json({
         status: "Online",
@@ -28,3 +27,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
 });
+
+// O server.js é o Gerenciador Central do backend. 
+// Configura o ambiente para que o servidor consiga viver e aceitar conexões.

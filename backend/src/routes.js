@@ -2,17 +2,14 @@ const express = require('express');
 const routes = express.Router();
 const prisma = require('./database/prisma');
 
-// 1. Rota de teste (Health Check)
 routes.get('/health', (req, res) => {
     return res.json({ message: "API Uniceplac está online!" });
 });
 
-// 2. CRIAR Equipamento (POST)
 routes.post('/equipamentos', async (req, res) => {
     try {
         const { nome, tipo, dataAquisicao, status } = req.body;
 
-        // Validação Simples (O diferencial que pediram!)
         if (!nome || nome.trim().length < 3) {
             return res.status(400).json({ error: "Nome é obrigatório e deve ter mais de 3 caracteres." });
         }
@@ -27,9 +24,8 @@ routes.post('/equipamentos', async (req, res) => {
     }
 });
 
-// 3. LISTAR e FILTRAR Equipamentos (GET) - Requisito do PDF
 routes.get('/equipamentos', async (req, res) => {
-    const { tipo, status } = req.query; // Pega filtros da URL: ?tipo=Monitor
+    const { tipo, status } = req.query;
     
     try {
         const equipamentos = await prisma.equipamento.findMany({
@@ -44,7 +40,6 @@ routes.get('/equipamentos', async (req, res) => {
     }
 });
 
-// 4. ATUALIZAR Equipamento (PUT)
 routes.put('/equipamentos/:id', async (req, res) => {
     const { id } = req.params;
     const { nome, tipo, dataAquisicao, status } = req.body;
@@ -65,7 +60,6 @@ routes.put('/equipamentos/:id', async (req, res) => {
     }
 });
 
-// 5. DELETAR Equipamento (DELETE)
 routes.delete('/equipamentos/:id', async (req, res) => {
     const { id } = req.params;
     try {
@@ -76,12 +70,11 @@ routes.delete('/equipamentos/:id', async (req, res) => {
     }
 });
 
-// 6. DESAFIO EXTRA: Exportar para JSON (Relatório Coordenação)
+// extra json
 routes.get('/exportar', async (req, res) => {
     try {
         const equipamentos = await prisma.equipamento.findMany();
         
-        // Define o cabeçalho para download de arquivo
         res.setHeader('Content-disposition', 'attachment; filename=relatorio_uniceplac.json');
         res.setHeader('Content-type', 'application/json');
         
@@ -92,3 +85,6 @@ routes.get('/exportar', async (req, res) => {
 });
 
 module.exports = routes;
+
+// O arquivo routes.js funciona como Painel de Controle backend. 
+// É ele quem recebe os pedidos do Frontend e decide qual ação tomar.

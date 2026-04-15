@@ -169,3 +169,5 @@ function App() {
 }
 
 export default App;
+
+// Ele gerencia o estado e o ciclo de vida.
